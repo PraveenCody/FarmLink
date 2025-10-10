@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Upload Product</title>
+  <style>
+    body {
+      font-family: "Segoe UI", sans-serif;
+      background: linear-gradient(135deg, #4CAF50, #2E7D32);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .upload-form-container {
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      width: 100%;
+      max-width: 500px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #2E7D32;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 5px;
+      color: #333;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-sizing: border-box;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      font-weight: 600;
+    }
+
+    button:hover {
+      background: #388E3C;
+    }
+
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 10px;
+      text-decoration: none;
+      color: #2E7D32;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="upload-form-container">
+    <h2>🌾 Upload Product</h2>
+    <form method="POST" action="{% url 'upload_product' %}" enctype="multipart/form-data">
+      {% csrf_token %}
+
+      <div class="form-group">
+        <label for="farmer_location">Farmer Location</label>
+        <input type="text" id="farmer_location" name="farmer_location" required>
+      </div>
+
+      <div class="form-group">
+        <label for="product_name">Product Name</label>
+        <input type="text" id="product_name" name="product_name" required>
+      </div>
+
+      <div class="form-group">
+        <label for="product_description">Product Description</label>
+        <textarea id="product_description" name="product_description" required></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="cultivated_date">Cultivated Date</label>
+        <input type="datetime-local" id="cultivated_date" name="cultivated_date" required>
+      </div>
+
+      <div class="form-group">
+        <label for="experiry_date">Expiry Date</label>
+        <input type="datetime-local" id="experiry_date" name="experiry_date" required>
+      </div>
+
+      <div class="form-group">
+        <label for="photo">Product Image</label>
+        <input type="file" id="photo" name="photo" accept="image/*" required>
+      </div>
+
+      <button type="submit">Upload</button>
+    </form>
+
+
+    <a href="{% url 'findex' %}" class="back-link">← Back to Dashboard</a>
+  </div>
+</body>
+</html>

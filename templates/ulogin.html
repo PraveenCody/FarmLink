@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>User Login | Farmers Connect</title>
+  <style>
+    /* 🌿 Global Styles */
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      background: linear-gradient(135deg, #a8e063, #56ab2f);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    /* 🌾 Decorative Background */
+    .bg-icon {
+      position: absolute;
+      opacity: 0.07;
+      z-index: -1;
+    }
+    .bg-icon.left {
+      left: 40px;
+      bottom: 30px;
+      width: 130px;
+    }
+    .bg-icon.right {
+      right: 40px;
+      top: 40px;
+      width: 110px;
+    }
+
+    /* 🪄 Login Card */
+    .login-container {
+      background: #ffffffd9;
+      backdrop-filter: blur(10px);
+      padding: 40px 35px;
+      border-radius: 20px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.25);
+      width: 100%;
+      max-width: 400px;
+      animation: fadeIn 0.8s ease;
+      transition: transform 0.3s ease;
+    }
+
+    .login-container:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 14px 45px rgba(0,0,0,0.3);
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 28px;
+      margin-bottom: 10px;
+      color: #2e7d32;
+      font-weight: 800;
+    }
+
+    .subtext {
+      text-align: center;
+      font-size: 15px;
+      color: #555;
+      margin-bottom: 25px;
+    }
+
+    /* 📄 Form Elements */
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    label {
+      font-weight: 600;
+      display: block;
+      margin-bottom: 6px;
+      color: #2e7d32;
+      font-size: 15px;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      font-size: 15px;
+      transition: 0.3s;
+    }
+
+    input:focus {
+      border-color: #66bb6a;
+      box-shadow: 0 0 6px #81c784;
+      outline: none;
+    }
+
+    /* ✨ Button */
+    button {
+      width: 100%;
+      padding: 13px;
+      background: linear-gradient(90deg, #4caf50, #2e7d32);
+      border: none;
+      border-radius: 10px;
+      color: white;
+      font-size: 17px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      letter-spacing: 0.5px;
+    }
+
+    button:hover {
+      background: linear-gradient(90deg, #66bb6a, #1b5e20);
+      box-shadow: 0 0 10px #66bb6a;
+      transform: translateY(-1px);
+    }
+
+    .error {
+      color: red;
+      font-size: 13px;
+      margin-top: 4px;
+    }
+
+    /* 🔗 Link */
+    .link {
+      text-align: center;
+      margin-top: 18px;
+    }
+
+    .link a {
+      color: #2e7d32;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .link a:hover {
+      text-decoration: underline;
+    }
+
+    /* 🌀 Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 🌾 Background Icons -->
+  <img src="https://cdn-icons-png.flaticon.com/512/2907/2907265.png" alt="leaf" class="bg-icon left">
+  <img src="https://cdn-icons-png.flaticon.com/512/7663/7663707.png" alt="tractor" class="bg-icon right">
+
+  <!-- 🪄 Login Form -->
+  <div class="login-container">
+    <h2>Welcome Back 👋</h2>
+    <p class="subtext">Connecting Farmers & Consumers — Login to Continue</p>
+
+    <form id="userLoginForm" method="POST" action="{% url 'ulogin' %}">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="email">📧 Email</label>
+        <input type="email" name="email" id="email" placeholder="Enter your email" required>
+        <div id="emailError" class="error"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">🔑 Password</label>
+        <input type="password" name="password" id="password" placeholder="Enter your password" required>
+        <div id="passwordError" class="error"></div>
+      </div>
+
+      <button type="submit">Login</button>
+
+      <div class="link">
+        <p>Not a user? <a href="{% url 'uregister' %}">Register here</a></p>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById('userLoginForm');
+    const emailInput = document.getElementById('email');
+    const passInput = document.getElementById('password');
+    const emailError = document.getElementById('emailError');
+    const passError = document.getElementById('passwordError');
+
+    form.addEventListener('submit', (e) => {
+      let valid = true;
+
+      if (!emailInput.value.includes('@')) {
+        emailError.textContent = "Please enter a valid email.";
+        valid = false;
+      } else {
+        emailError.textContent = "";
+      }
+
+      if (passInput.value.trim().length < 6) {
+        passError.textContent = "Password must be at least 6 characters.";
+        valid = false;
+      } else {
+        passError.textContent = "";
+      }
+
+      if (!valid) e.preventDefault();
+    });
+  </script>
+
+</body>
+</html>
