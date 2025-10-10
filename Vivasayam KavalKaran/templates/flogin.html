@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Farmer Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #2E7D32, #4CAF50);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .login-container {
+      background: #fff;
+      padding: 40px 30px;
+      border-radius: 20px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+      animation: fadeIn 0.8s ease;
+    }
+
+    .login-container h2 {
+      font-size: 1.8rem;
+      color: #2E7D32;
+      margin-bottom: 25px;
+    }
+
+    .form-group {
+      text-align: left;
+      margin-bottom: 18px;
+    }
+
+    label {
+      font-weight: 600;
+      font-size: 14px;
+      display: block;
+      margin-bottom: 6px;
+      color: #333;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      font-size: 14px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      outline: none;
+      transition: 0.3s;
+    }
+
+    input:focus {
+      border-color: #4CAF50;
+      box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+    }
+
+    button {
+      background: #4CAF50;
+      color: white;
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.3s ease;
+      margin-top: 5px;
+    }
+
+    button:hover {
+      background: #388E3C;
+      transform: scale(1.03);
+    }
+
+    .error {
+      color: #e53935;
+      font-size: 13px;
+      margin-top: 4px;
+    }
+
+    .link {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 14px;
+    }
+
+    .link a {
+      color: #2E7D32;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .link a:hover {
+      text-decoration: underline;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      .login-container {
+        padding: 30px 20px;
+      }
+
+      .login-container h2 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h2>👨‍🌾 Farmer Login</h2>
+    <form id="farmerLoginForm" method="POST" action="{% url 'flogin' %}">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" name="email" id="email" required>
+        <div id="emailError" class="error"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password" required>
+        <div id="passwordError" class="error"></div>
+      </div>
+
+      <button type="submit">Login</button>
+      <div class="link">
+        <p>New farmer? <a href="{% url 'fregister' %}">Register here</a></p>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    const fForm = document.getElementById('farmerLoginForm');
+    const fEmail = document.getElementById('email');
+    const fPass = document.getElementById('password');
+    const fEmailErr = document.getElementById('emailError');
+    const fPassErr = document.getElementById('passwordError');
+
+    fForm.addEventListener('submit', (e) => {
+      let valid = true;
+
+      if (!fEmail.value.includes('@')) {
+        fEmailErr.textContent = "Please enter a valid email address.";
+        valid = false;
+      } else {
+        fEmailErr.textContent = "";
+      }
+
+      if (fPass.value.trim().length < 6) {
+        fPassErr.textContent = "Password must be at least 6 characters.";
+        valid = false;
+      } else {
+        fPassErr.textContent = "";
+      }
+
+      if (!valid) e.preventDefault();
+    });
+  </script>
+</body>
+</html>
